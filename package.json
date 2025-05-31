@@ -1,0 +1,19 @@
+{
+  "name": "livestate",
+  "version": "1.0.0",
+  "description": "A lightweight reactive state management system for vanilla JavaScript.",
+  "main": "LiveState.js",
+  "module": "LiveState.js",
+  "keywords": ["state-management", "reactive", "vanilla-js", "DOM-sync"],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo 'Building LiveState...'",
+    "dev": "node test.js"
+  },
+  "author": "Ronan Japzon Paredes",
+    "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RonparedesPH/livestate"
+  }
+}
