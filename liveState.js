@@ -4,14 +4,17 @@ const subscribers = new Map(); // Stores elements subscribed to state changes
 
 function useState(key, initialValue) {
     if (!stateRegistry.has(key)) {
-        stateRegistry.set(key, initialValue);
-        //subscribers.set(key, new Set());
+        stateRegistry.set(key, { initial: initialValue, current: initialValue, previous: null });
+        // stateRegistry.set(key, initialValue);
     }
 
     function setState(newValue) {
-        if (stateRegistry.get(key) !== newValue) {
-            stateRegistry.set(key, newValue);
-            console.log(`[${key}] State updated:`, newValue);
+        let stateObj = stateRegistry.get(key);
+
+        if (stateObj.current !== newValue) {
+            stateObj.previous = stateObj.current; // Store previous value
+            stateObj.current = newValue; // Update current value
+            console.log(`[${key}] State updated:`, stateObj);
             notifySubscribers(key);
         }
     }
@@ -32,7 +35,7 @@ function deleteState(key) {
 }
 
 // Allow elements to subscribe to state changes
-function subscribeState(key, selector, template = "%") {
+function subscribeState(key, selector, template = "%1") {
     if (!subscribers.has(selector)) {
         // subscribers.set(selector, new Set());
         subscribers.set(selector, { state: key, template });
@@ -59,9 +62,14 @@ function updateTemplate(selector, newTemplate) {
 
 // Update element with template formatting or plain value
 // internal - do not export
-function updateElement(element, value, template) {
+function updateElement(element, stateObj, template) {
     requestAnimationFrame(() => {
-        let formattedValue = template ? template.replace("%", value) : value;
+        // let formattedValue = template ? template.replace("%", value) : value;
+        let formattedValue = template
+            .replace("%0", stateObj.initial)   // Initial value
+            .replace("%1", stateObj.current)   // Current value
+            .replace("%2", stateObj.previous); // Previous value
+
         if ('value' in element) {
             element.value = formattedValue;
         } else {
@@ -82,6 +90,6 @@ function notifySubscribers(key) {
     });
 }
 
-const liveState = { getState, deleteState, subscribeState, updateTemplate };
+const liveState = { useState, getState, deleteState, subscribeState, updateTemplate };
 
 export { useState, liveState };
