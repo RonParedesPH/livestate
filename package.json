@@ -1,6 +1,6 @@
 {
   "name": "livestate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight reactive state management system for vanilla JavaScript.",
   "main": "LiveState.js",
   "module": "LiveState.js",
@@ -8,7 +8,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "echo 'Building LiveState...'",
-    "dev": "node test.js"
+    "dev": "node test.js",
+      "publish": "npm publish",
+  "clean": "rm -rf node_modules"
   },
   "author": "Ronan Japzon Paredes",
     "license": "MIT",
